@@ -16,5 +16,3 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 RUN php composer-setup.php
 RUN php -r "unlink('composer-setup.php');"
 RUN mv composer.phar /usr/local/bin/composer
-
-# docker run --init --name agent_docker_composer -v /var/run/docker.sock:/var/run/docker.sock jenkins_agent_docker_composer -url http://172.17.0.2:8080 -workDir=/home/jenkins/agent 40c7bc5df1246830f6ebe3a9c17bbc0053950562ab991ec871118ba590a0a1a7 "Jenkins agent docker composer"
