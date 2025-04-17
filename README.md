@@ -19,17 +19,17 @@ symfony serve
 
 ## Deploy with Docker
 
+Create a network
+```
+docker network create symfony-network
+```
+
 If needed deploy a myslq container
 ```
-docker run --name symfony-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql
+docker run --name symfony-mysql --network symfony-network -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql
 ```
 
-Get the IP adress of mysql container
-```
-docker inspect symfony-mysql
-```
-
-Change the connection string in the .env line 27 with the IP adress of mysql container
+Change the connection string in the .env line 27 with the container name of mysql container
 Create database in mysql container and make the migration
 ```
 symfony console doctrine:database:create
@@ -39,7 +39,7 @@ symfony console doctrine:migration:migrate
 Build the image and deploy as container
 ```
 docker build . -t symfony-cicdcd
-docker run --name symfony_cicdcd_container -p 8080:80 symfony-cicdcd
+docker run --name symfony_cicdcd_container --network symfony-network -p 8080:80 symfony-cicdcd
 ```
 
 ## Deploy with Jenkins
