@@ -30,16 +30,17 @@ docker run --name symfony-mysql --network symfony-network -p 3306:3306 -e MYSQL_
 ```
 
 Change the connection string in the .env line 27 with the container name of mysql container
-Create database in mysql container and make the migration
-```
-symfony console doctrine:database:create
-symfony console doctrine:migration:migrate
-```
 
 Build the image and deploy as container
 ```
 docker build . -t symfony-cicdcd
-docker run --name symfony_cicdcd_container --network symfony-network -p 8080:80 symfony-cicdcd
+docker run --name symfony_cicdcd_container --network symfony-network -p 8089:80 symfony-cicdcd
+```
+
+Create database in mysql container and make the migration
+```
+docker exec -it symfony_cicdcd_container php bin/console doctrine:database:create
+docker exec -it symfony_cicdcd_container php bin/console doctrine:migration:migrate
 ```
 
 ## Deploy with Jenkins
